@@ -1,2 +1,26 @@
 # AspCoreCardGameEngine
-A card game engine API written in AspNet Core
+A card game engine API written in AspNet Core.
+
+Inspired by https://deckofcardsapi.com/ (https://github.com/crobertsbmw/deckofcards written in python). This project is to create an open source AspNet Core engine.
+
+
+## Roadmap
+
+### Engine
+
+0. [ ] Skeleton app with EntityFramework (using Mysql)
+0. [ ] Decks
+0. [ ] Partial decks
+0. [ ] Draw from deck
+0. [ ] Shuffle deck
+0. [ ] Create pile (discarding, player hands)
+0. [ ] Shuffle pile
+0. [ ] List cards in pile
+0. [ ] Draw from pile (top, bottom, random)
+0. [ ] Rules engine (to implement games)
+0. [ ] Realtime updates (SignalR)
+
+### Games
+
+0. [ ] Shithead
+0. [ ] Rummy
