@@ -6,13 +6,26 @@ Inspired by https://deckofcardsapi.com/ (https://github.com/crobertsbmw/deckofca
 
 ## Roadmap
 
+### Documentation
+
+0. [ ] Contribution guidelines
+0. [ ] Production setup
+
+### Contribute
+
+Contributions are super welcome!
+
+* Database migrations are applied automatically in Startup via StartupHelper
+* To generate migrate script, call `dotnet ef migrations add Your_new_migration_name`
+
 ### Engine
 
-0. [ ] Skeleton app with EntityFramework (using Mysql)
-0. [ ] Decks
-0. [ ] Partial decks
+0. [x] Plumbing with EntityFramework (using Mysql)
+0. [ ] Setup swagger/Swashbuckle
+0. [ ] Create deck (shuffled, not shuffled, multiple decks)
 0. [ ] Draw from deck
 0. [ ] Shuffle deck
+0. [ ] Create partial deck
 0. [ ] Create pile (discarding, player hands)
 0. [ ] Shuffle pile
 0. [ ] List cards in pile
