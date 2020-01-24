@@ -21,7 +21,7 @@ Contributions are super welcome!
 ### Engine
 
 0. [x] Plumbing with EntityFramework (using Mysql)
-0. [ ] Setup swagger/Swashbuckle
+0. [x] Setup swagger/Swashbuckle
 0. [ ] Create deck (shuffled, not shuffled, multiple decks)
 0. [ ] Draw from deck
 0. [ ] Shuffle deck

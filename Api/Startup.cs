@@ -39,6 +39,8 @@ namespace AspCoreCardGameEngine.Api
 
             services.AddScoped<StartupHelper>();
             services.AddServiceImplementations(_configuration);
+
+            services.AddCustomSwagger($"{Constants.APP_NAME} API");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +62,9 @@ namespace AspCoreCardGameEngine.Api
                 logger.LogError(exception, "Error in startup Configure");
                 Thread.Sleep(TimeSpan.FromSeconds(3)); // Sleep to flush logs and app telemetry
                 hostApplicationLifetime.StopApplication();
+            }
+
+            app.UseCustomSwagger($"{Constants.APP_NAME} API");
 
             if (env.IsDevelopment())
             {
