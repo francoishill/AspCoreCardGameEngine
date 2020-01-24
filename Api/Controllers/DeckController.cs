@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AspCoreCardGameEngine.Api.Domain.Services;
 using AspCoreCardGameEngine.Api.Domain.Services.Requests;
 using AspCoreCardGameEngine.Api.Domain.Services.Responses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace AspCoreCardGameEngine.Api.Controllers
 {
@@ -11,23 +12,18 @@ namespace AspCoreCardGameEngine.Api.Controllers
     [Route("api/[controller]")]
     public class DeckController : ControllerBase
     {
-        private readonly ILogger<DeckController> _logger;
         private readonly IDeckService _deckService;
 
-        public DeckController(ILogger<DeckController> logger, IDeckService deckService)
+        public DeckController(IDeckService deckService)
         {
-            _logger = logger;
             _deckService = deckService;
         }
 
         [HttpPost]
-        public async Task<ActionResult<CreateDeckResponse>> CreateDeck([FromBody] CreateDeckRequest request)
+        public async Task<ActionResult<IEnumerable<DeckResponse>>> CreateDecks([FromBody] CreateDecksRequest request)
         {
-            var deck = await _deckService.CreateDeck(request);
-
-            _logger.LogDebug($"Deck created with Id {deck.Id}");
-
-            return deck;
+            var decks = await _deckService.CreateDecks(request);
+            return decks.ToList();
         }
     }
 }

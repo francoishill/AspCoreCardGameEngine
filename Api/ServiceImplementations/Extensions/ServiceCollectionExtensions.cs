@@ -8,6 +8,8 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Extensions
     {
         public static void AddServiceImplementations(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton<IShuffler, Shuffler>();
+
             services.AddScoped<IDeckService, DeckService>();
         }
     }

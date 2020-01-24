@@ -6,5 +6,7 @@ namespace AspCoreCardGameEngine.Api.Domain.Models
         Diamonds,
         Hearts,
         Spades,
+
+        Joker,
     }
 }

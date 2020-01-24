@@ -6,12 +6,12 @@ using AspCoreCardGameEngine.Api.Domain.Models.Database;
 
 namespace AspCoreCardGameEngine.Api.Domain.Services.Responses
 {
-    public class CreateDeckResponse
+    public class DeckResponse
     {
         public Guid Id { get; }
         public List<DeckCard> Cards { get; }
 
-        public CreateDeckResponse(Deck deck)
+        public DeckResponse(Deck deck)
         {
             Id = deck.Id;
             Cards = deck.Cards.Select(c => new DeckCard(c)).ToList();
