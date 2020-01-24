@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using AspCoreCardGameEngine.Api.Config;
 using AspCoreCardGameEngine.Api.Config.Extensions;
@@ -35,7 +36,12 @@ namespace AspCoreCardGameEngine.Api
                     o => { o.ServerVersion(new Version(5, 7, 17), ServerType.MySql); }
                 ));
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
             services.AddScoped<StartupHelper>();
             services.AddServiceImplementations(_configuration);
