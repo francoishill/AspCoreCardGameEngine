@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspCoreCardGameEngine.Api.Domain.Services;
-using AspCoreCardGameEngine.Api.Domain.Services.Requests;
-using AspCoreCardGameEngine.Api.Domain.Services.Responses;
+using AspCoreCardGameEngine.Domain.Services;
+using AspCoreCardGameEngine.Domain.Services.Requests;
+using AspCoreCardGameEngine.Domain.Services.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspCoreCardGameEngine.Api.Controllers

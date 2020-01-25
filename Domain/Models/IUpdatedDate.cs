@@ -1,6 +1,6 @@
 using System;
 
-namespace AspCoreCardGameEngine.Api.Domain.Models
+namespace AspCoreCardGameEngine.Domain.Models
 {
     public interface IUpdatedDate
     {

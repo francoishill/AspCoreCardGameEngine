@@ -1,4 +1,4 @@
-namespace AspCoreCardGameEngine.Api.Domain.Models
+namespace AspCoreCardGameEngine.Domain.Models
 {
     public enum ImageTypeEnum
     {

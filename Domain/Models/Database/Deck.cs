@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AspCoreCardGameEngine.Api.Domain.Models.Database
+namespace AspCoreCardGameEngine.Domain.Models.Database
 {
     public class Deck : ICreatedDate, IUpdatedDate
     {

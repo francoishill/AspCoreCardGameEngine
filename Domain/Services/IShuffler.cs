@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AspCoreCardGameEngine.Api.Domain.Services
+namespace AspCoreCardGameEngine.Domain.Services
 {
     public interface IShuffler
     {

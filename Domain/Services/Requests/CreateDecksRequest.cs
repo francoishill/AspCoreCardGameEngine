@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AspCoreCardGameEngine.Api.Domain.Services.Requests
+namespace AspCoreCardGameEngine.Domain.Services.Requests
 {
     public class CreateDecksRequest
     {

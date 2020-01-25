@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AspCoreCardGameEngine.Api.Domain.Services.Requests;
-using AspCoreCardGameEngine.Api.Domain.Services.Responses;
+using AspCoreCardGameEngine.Domain.Services.Requests;
+using AspCoreCardGameEngine.Domain.Services.Responses;
 
-namespace AspCoreCardGameEngine.Api.Domain.Services
+namespace AspCoreCardGameEngine.Domain.Services
 {
     public interface IDeckService
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace AspCoreCardGameEngine.Api.Domain.Models.Database
+namespace AspCoreCardGameEngine.Domain.Models.Database
 {
     public class Card : ICreatedDate, IUpdatedDate
     {

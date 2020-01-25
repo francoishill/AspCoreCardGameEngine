@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AspCoreCardGameEngine.Api.Domain.Models;
-using AspCoreCardGameEngine.Api.Domain.Models.Database;
+using AspCoreCardGameEngine.Domain.Models;
+using AspCoreCardGameEngine.Domain.Models.Database;
 
-namespace AspCoreCardGameEngine.Api.Domain.Services.Responses
+namespace AspCoreCardGameEngine.Domain.Services.Responses
 {
     public class DeckResponse
     {

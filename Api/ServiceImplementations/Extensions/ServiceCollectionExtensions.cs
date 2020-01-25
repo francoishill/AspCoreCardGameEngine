@@ -1,4 +1,4 @@
-using AspCoreCardGameEngine.Api.Domain.Services;
+using AspCoreCardGameEngine.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

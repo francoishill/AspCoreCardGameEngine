@@ -1,8 +1,8 @@
 using System.Linq;
-using AspCoreCardGameEngine.Api.Domain.Models;
-using AspCoreCardGameEngine.Api.Domain.Models.Database;
-using AspCoreCardGameEngine.Api.Domain.Services;
 using AspCoreCardGameEngine.Api.ServiceImplementations;
+using AspCoreCardGameEngine.Domain.Models;
+using AspCoreCardGameEngine.Domain.Models.Database;
+using AspCoreCardGameEngine.Domain.Services;
 using NSubstitute;
 using Xunit;
 

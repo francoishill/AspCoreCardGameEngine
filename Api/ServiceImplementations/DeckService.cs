@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspCoreCardGameEngine.Api.Domain.Models;
-using AspCoreCardGameEngine.Api.Domain.Models.Database;
-using AspCoreCardGameEngine.Api.Domain.Services;
-using AspCoreCardGameEngine.Api.Domain.Services.Requests;
-using AspCoreCardGameEngine.Api.Domain.Services.Responses;
 using AspCoreCardGameEngine.Api.Persistence;
+using AspCoreCardGameEngine.Domain.Models;
+using AspCoreCardGameEngine.Domain.Models.Database;
+using AspCoreCardGameEngine.Domain.Services;
+using AspCoreCardGameEngine.Domain.Services.Requests;
+using AspCoreCardGameEngine.Domain.Services.Responses;
 using Microsoft.Extensions.Logging;
 
 namespace AspCoreCardGameEngine.Api.ServiceImplementations

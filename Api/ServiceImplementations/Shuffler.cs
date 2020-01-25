@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using AspCoreCardGameEngine.Api.Domain.Services;
+using AspCoreCardGameEngine.Domain.Services;
 
 namespace AspCoreCardGameEngine.Api.ServiceImplementations
 {

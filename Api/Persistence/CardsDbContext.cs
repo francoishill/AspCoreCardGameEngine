@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AspCoreCardGameEngine.Api.Domain.Models;
-using AspCoreCardGameEngine.Api.Domain.Models.Database;
+using AspCoreCardGameEngine.Domain.Models;
+using AspCoreCardGameEngine.Domain.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
