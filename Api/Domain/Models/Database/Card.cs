@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace AspCoreCardGameEngine.Api.Domain.Models.Database
 {
@@ -11,14 +10,11 @@ namespace AspCoreCardGameEngine.Api.Domain.Models.Database
         public CardSuitEnum Suit { get; set; }
         public int Value { get; set; }
 
-        public ICollection<CardImage> Images { get; set; }
-
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
 
         private Card()
         {
-            Images = new HashSet<CardImage>();
         }
 
         public Card(Deck deck, CardSuitEnum suit, int value)

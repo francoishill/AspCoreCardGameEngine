@@ -12,7 +12,6 @@ namespace AspCoreCardGameEngine.Api.Persistence
     {
         public DbSet<Deck> Decks { get; set; }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<CardImage> CardImages { get; set; }
 
         public CardsDbContext(DbContextOptions<CardsDbContext> options)
             : base(options)
@@ -23,9 +22,6 @@ namespace AspCoreCardGameEngine.Api.Persistence
         {
             modelBuilder.Entity<Card>().Property(c => c.Suit).IsRequired().HasMaxLength(32).HasConversion(new EnumToStringConverter<CardSuitEnum>());
             modelBuilder.Entity<Card>().Property(c => c.Value).IsRequired();
-
-            modelBuilder.Entity<CardImage>().Property(c => c.Type).HasMaxLength(32).HasConversion(new EnumToStringConverter<ImageTypeEnum>());
-            modelBuilder.Entity<CardImage>().Property(c => c.Url).HasMaxLength(240);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -3,14 +3,16 @@ using System;
 using AspCoreCardGameEngine.Api.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspCoreCardGameEngine.Api.Migrations
 {
     [DbContext(typeof(CardsDbContext))]
-    partial class CardsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200124191815_Remove_unused_CardImages")]
+    partial class Remove_unused_CardImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

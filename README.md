@@ -22,8 +22,8 @@ Contributions are super welcome!
 
 0. [x] Plumbing with EntityFramework (using Mysql)
 0. [x] Setup swagger/Swashbuckle
-0. [ ] Create deck (shuffled, not shuffled, multiple decks, jokers)
-0. [ ] Card images
+0. [x] Create deck (shuffled, not shuffled, multiple decks, jokers)
+0. [x] ~~Card images~~ - removed from backend, the frontend can take care of this
 0. [ ] Draw from deck
 0. [ ] Shuffle deck
 0. [ ] Create partial deck
