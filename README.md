@@ -3,20 +3,19 @@ A card game engine API written in AspNet Core.
 
 Inspired by https://deckofcardsapi.com/ (https://github.com/crobertsbmw/deckofcards written in python). This project is to create an open source AspNet Core engine.
 
-
-## Roadmap
-
-### Documentation
+## Documentation
 
 0. [ ] Contribution guidelines
 0. [ ] Production setup
 
-### Contribute
+## Contribute
 
 Contributions are super welcome!
 
 * Database migrations are applied automatically in Startup via StartupHelper
 * To generate migrate script, call `dotnet ef migrations add Your_new_migration_name`
+
+## Roadmap
 
 ### Engine
 
