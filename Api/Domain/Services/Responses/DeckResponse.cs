@@ -19,11 +19,13 @@ namespace AspCoreCardGameEngine.Api.Domain.Services.Responses
 
         public class DeckCard
         {
+            public int Id { get; set; }
             public CardSuitEnum Suit { get; set; }
             public int Value { get; set; }
 
             public DeckCard(Card card)
             {
+                Id = card.Id;
                 Suit = card.Suit;
                 Value = card.Value;
             }
