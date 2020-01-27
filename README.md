@@ -20,6 +20,8 @@ Contributions are super welcome!
 ### Engine
 
 0. [x] Plumbing with EntityFramework (using Mysql)
+0. [ ] Handle DomainException in middleware
+0. [ ] Add DelayMiddleware for development
 0. [x] Setup swagger/Swashbuckle
 0. [x] Create deck (shuffled, not shuffled, multiple decks, jokers)
 0. [x] ~~Card images~~ - removed from backend, the frontend can take care of this
@@ -32,6 +34,7 @@ Contributions are super welcome!
 0. [ ] Draw from pile (top, bottom, random)
 0. [ ] Rules engine (to implement games)
 0. [ ] Realtime updates (SignalR)
+0. [ ] Deal with all `throw new NotImplementedException()`
 
 ### Games
 

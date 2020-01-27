@@ -1,3 +1,4 @@
+using AspCoreCardGameEngine.Api.ServiceImplementations.Shithead;
 using AspCoreCardGameEngine.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,8 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Extensions
         {
             services.AddSingleton<IShuffler, Shuffler>();
 
-            services.AddScoped<IDeckService, DeckService>();
+            services.AddScoped<IDeckFactory, DeckFactory>();
+            services.AddScoped<IShitheadGameEngine, ShitheadGameEngine>();
         }
     }
 }

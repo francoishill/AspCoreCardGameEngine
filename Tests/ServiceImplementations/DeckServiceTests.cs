@@ -3,6 +3,7 @@ using AspCoreCardGameEngine.Api.ServiceImplementations;
 using AspCoreCardGameEngine.Domain.Models;
 using AspCoreCardGameEngine.Domain.Models.Database;
 using AspCoreCardGameEngine.Domain.Services;
+using AspCoreCardGameEngine.Domain.Services.Structs;
 using NSubstitute;
 using Xunit;
 
@@ -11,12 +12,12 @@ namespace Tests.ServiceImplementations
     public class DeckServiceTests
     {
         private readonly IShuffler _shuffler;
-        private readonly DeckService _service;
+        private readonly DeckFactory _factory;
 
         public DeckServiceTests()
         {
             _shuffler = Substitute.For<IShuffler>();
-            _service = new DeckService(null, null, _shuffler);
+            _factory = new DeckFactory(_shuffler);
         }
 
         [Theory]
@@ -25,16 +26,17 @@ namespace Tests.ServiceImplementations
         public void CreateDeck_Joker_count_ExpectedBehavior(bool includeJokers, int expectedJokerCount)
         {
             // Arrange
-            var options = new DeckService.CreateDeckOptions
+            var options = new CreateDeckOptions
             {
                 IncludeJokers = includeJokers,
             };
+            var pile = new Pile(null, PileTypeEnum.Deck, "test-pile");
 
             // Act
-            var result = _service.CreateDeck(options);
+            _factory.AddDeckCardsToPile(ShitheadGameConfig.Default, pile, options);
 
             // Assert
-            var jokerCount = result.Cards.Count(c => c.Suit == CardSuitEnum.Joker);
+            var jokerCount = pile.Cards.Count(c => c.Suit == CardSuitEnum.Joker);
             Assert.Equal(expectedJokerCount, jokerCount);
         }
 
@@ -44,16 +46,17 @@ namespace Tests.ServiceImplementations
         public void CreateDeck_Card_count_ExpectedBehavior(bool includeJokers, int expectedCardCount)
         {
             // Arrange
-            var options = new DeckService.CreateDeckOptions
+            var options = new CreateDeckOptions
             {
                 IncludeJokers = includeJokers,
             };
+            var pile = new Pile(null, PileTypeEnum.Deck, "test-pile");
 
             // Act
-            var result = _service.CreateDeck(options);
+            _factory.AddDeckCardsToPile(ShitheadGameConfig.Default, pile, options);
 
             // Assert
-            Assert.Equal(expectedCardCount, result.Cards.Count);
+            Assert.Equal(expectedCardCount, pile.Cards.Count);
         }
 
         [Theory]
@@ -62,10 +65,11 @@ namespace Tests.ServiceImplementations
         public void CreateDeck_Shuffle_called_when_expected(bool shuffle)
         {
             // Arrange
-            var options = new DeckService.CreateDeckOptions {Shuffled = shuffle};
+            var options = new CreateDeckOptions {Shuffled = shuffle};
+            var pile = new Pile(null, PileTypeEnum.Deck, "test-pile");
 
             // Act
-            _service.CreateDeck(options);
+            _factory.AddDeckCardsToPile(ShitheadGameConfig.Default, pile, options);
 
             // Assert
             if (shuffle)

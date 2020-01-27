@@ -6,7 +6,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
     {
         public int Id { get; set; }
 
-        public Deck Deck { get; set; }
+        public Pile Pile { get; set; }
         public CardSuitEnum Suit { get; set; }
         public int Value { get; set; }
 
@@ -17,12 +17,30 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         {
         }
 
-        public Card(Deck deck, CardSuitEnum suit, int value)
+        public Card(Pile pile, CardSuitEnum suit, int value)
             : this()
         {
-            Deck = deck;
+            Pile = pile;
             Suit = suit;
             Value = value;
+        }
+
+        public override string ToString()
+        {
+            return $"{GetValueString()} of {Suit.ToString()}";
+        }
+
+        private string GetValueString()
+        {
+            return Value switch
+            {
+                1 => "Ace",
+                11 => "Jack",
+                12 => "Queen",
+                13 => "King",
+                14 => "Joker",
+                _ => Value.ToString()
+            };
         }
     }
 }

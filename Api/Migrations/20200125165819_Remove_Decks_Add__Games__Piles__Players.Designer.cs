@@ -3,14 +3,16 @@ using System;
 using AspCoreCardGameEngine.Api.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AspCoreCardGameEngine.Api.Migrations
 {
     [DbContext(typeof(CardsDbContext))]
-    partial class CardsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200125165819_Remove_Decks_Add__Games__Piles__Players")]
+    partial class Remove_Decks_Add__Games__Piles__Players
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,6 @@ namespace AspCoreCardGameEngine.Api.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("State")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
@@ -81,7 +80,7 @@ namespace AspCoreCardGameEngine.Api.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("GameId")
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Identifier")
@@ -99,8 +98,7 @@ namespace AspCoreCardGameEngine.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId", "Type", "Identifier")
-                        .IsUnique();
+                    b.HasIndex("GameId");
 
                     b.ToTable("Pile");
                 });
@@ -141,9 +139,7 @@ namespace AspCoreCardGameEngine.Api.Migrations
                 {
                     b.HasOne("AspCoreCardGameEngine.Domain.Models.Database.Game", "Game")
                         .WithMany("Piles")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("AspCoreCardGameEngine.Domain.Models.Database.Player", b =>
