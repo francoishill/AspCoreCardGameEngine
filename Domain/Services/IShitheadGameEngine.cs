@@ -8,7 +8,15 @@ namespace AspCoreCardGameEngine.Domain.Services
     public interface IShitheadGameEngine
     {
         Task<CreateGameResponse> CreateGame(ShitheadGameConfig config, CreateShitheadGameRequest request);
-        Task<JoinGameResponse> JoinGame(Guid id);
-        Task<DrawFromDeckResponse> DrawFromDeck(Guid id, Guid playerId);
+
+        Task<JoinGameResponse> JoinGame(Guid gameId);
+
+        Task DrawFromDeck(Guid gameId, Guid playerId);
+
+        Task PlayCards(
+            ShitheadGameConfig config,
+            Guid gameId,
+            Guid playerId,
+            PlayShitheadCardsRequest request);
     }
 }

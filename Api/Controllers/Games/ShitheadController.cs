@@ -20,21 +20,38 @@ namespace AspCoreCardGameEngine.Api.Controllers.Games
         }
 
         [HttpPost]
-        public async Task<ActionResult<CreateGameResponse>> CreateShitheadGame(CreateShitheadGameRequest request)
+        public async Task<ActionResult<CreateGameResponse>> CreateShitheadGame(
+            CreateShitheadGameRequest request)
         {
             return await _shitheadGameEngine.CreateGame(ShitheadGameConfig.Default, request);
         }
 
-        [HttpPost("{id}/join")]
-        public async Task<ActionResult<JoinGameResponse>> JoinShitheadGame(Guid id)
+        [HttpPost("{gameId}/join")]
+        public async Task<ActionResult<JoinGameResponse>> JoinShitheadGame(
+            Guid gameId)
         {
-            return await _shitheadGameEngine.JoinGame(id);
+            return await _shitheadGameEngine.JoinGame(gameId);
         }
 
-        [HttpPost("{id}/draw-from-deck")]
-        public async Task<ActionResult<DrawFromDeckResponse>> ShitheadDrawFromDeck(Guid id, [FromHeader(Name = "X-Player-Id"), Required] Guid playerId)
+        [HttpPost("{gameId}/draw-from-deck")]
+        public async Task<ActionResult> ShitheadDrawFromDeck(
+            Guid gameId,
+            [FromHeader(Name = "X-Player-Id"), Required]
+            Guid playerId)
         {
-            return await _shitheadGameEngine.DrawFromDeck(id, playerId);
+            await _shitheadGameEngine.DrawFromDeck(gameId, playerId);
+            return NoContent();
+        }
+
+        [HttpPost("{gameId}/play-cards")]
+        public async Task<ActionResult> ShitheadPlayCards(
+            Guid gameId,
+            [FromHeader(Name = "X-Player-Id"), Required]
+            Guid playerId,
+            PlayShitheadCardsRequest request)
+        {
+            await _shitheadGameEngine.PlayCards(ShitheadGameConfig.Default, gameId, playerId, request);
+            return NoContent();
         }
     }
 }

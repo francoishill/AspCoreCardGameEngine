@@ -92,9 +92,9 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             return game;
         }
 
-        public async Task<JoinGameResponse> JoinGame(Guid id)
+        public async Task<JoinGameResponse> JoinGame(Guid gameId)
         {
-            var game = await GetGameOrThrow(id);
+            var game = await GetGameOrThrow(gameId);
 
             var firstAvailable = game.Players.FirstOrDefault(p => !p.Accepted);
             if (firstAvailable == null)
@@ -108,20 +108,53 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             return new JoinGameResponse(firstAvailable.Id);
         }
 
-        public async Task<DrawFromDeckResponse> DrawFromDeck(Guid id, Guid playerId)
+        public async Task DrawFromDeck(Guid gameId, Guid playerId)
         {
-            var game = await GetGameOrThrow(id);
+            var game = await GetGameOrThrow(gameId);
 
             var player = game.Players.SingleOrDefault(p => p.Id == playerId);
             if (player == null)
             {
-                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {id} is not in the game");
+                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
             }
 
             _shitheadPileLogic.DrawFromDeck(player);
             await _dbContext.SaveChangesAsync();
+        }
 
-            return new DrawFromDeckResponse();
+        public async Task PlayCards(
+            ShitheadGameConfig config,
+            Guid gameId,
+            Guid playerId,
+            PlayShitheadCardsRequest request)
+        {
+            var game = await GetGameOrThrow(gameId);
+
+            var player = game.Players.SingleOrDefault(p => p.Id == playerId);
+            if (player == null)
+            {
+                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
+            }
+
+            var playerPile = player.GetFirstNonEmptyPile();
+            var matchingCards = request.CardIds.Select(id => new
+                {
+                    CardId = id,
+                    Card = playerPile.Cards.SingleOrDefault(c => c.Id == id),
+                })
+                .ToList();
+
+            var missingCards = matchingCards.Where(m => m.Card == null).ToList();
+            if (missingCards.Any())
+            {
+                var joinedIds = string.Join(", ", missingCards.Select(m => m.CardId));
+                throw new DomainException(DomainErrorCode.BadRequest, $"Cards do not exist or cannot be found in the pile of player {player.Id} (game {game.Id}). Card ids: {joinedIds}");
+            }
+
+            var cardsToPlay = matchingCards.Select(m => m.Card).ToList();
+
+            _shitheadPileLogic.PlayToDeck(config, player, cardsToPlay);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

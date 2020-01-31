@@ -6,6 +6,6 @@ namespace AspCoreCardGameEngine.Domain.Services
     public interface IShitheadPileLogic
     {
         void DrawFromDeck(Player player);
-        void PlayToDeck(ShitheadGameConfig config, List<Card> cardsToPlay, Player player);
+        void PlayToDeck(ShitheadGameConfig config, Player player, List<Card> cardsToPlay);
     }
 }

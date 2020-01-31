@@ -40,7 +40,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             playerHandPile.Cards.Add(deckCard);
         }
 
-        public void PlayToDeck(ShitheadGameConfig config, List<Card> cardsToPlay, Player player)
+        public void PlayToDeck(ShitheadGameConfig config, Player player, List<Card> cardsToPlay)
         {
             var game = player.Game;
             if (cardsToPlay.Count == 0)

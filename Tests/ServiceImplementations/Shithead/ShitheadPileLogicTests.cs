@@ -89,7 +89,7 @@ namespace Tests.ServiceImplementations.Shithead
             List<Card> cards = new List<Card>();
 
             // Act
-            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, cards, _player1));
+            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, _player1, cards));
 
             // Assert
             Assert.Equal(Resources.At_least_one_card_must_be_specified_to_play_to_deck, exception.Message);
@@ -107,7 +107,7 @@ namespace Tests.ServiceImplementations.Shithead
             };
 
             // Act
-            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, cards, _player1));
+            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, _player1, cards));
 
             // Assert
             Assert.Equal(string.Format(Resources.It_is_another_player_s_turn__not_player__0_, _player1.Id), exception.Message);
@@ -127,7 +127,7 @@ namespace Tests.ServiceImplementations.Shithead
             };
 
             // Act
-            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, cards, _player1));
+            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, _player1, cards));
 
             // Assert
             Assert.Equal(Resources.Cannot_play_cards_with_different_values, exception.Message);
@@ -151,7 +151,7 @@ namespace Tests.ServiceImplementations.Shithead
             };
 
             // Act
-            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, cards, _player1));
+            var exception = Assert.Throws<DomainException>(() => _shitheadPileLogic.PlayToDeck(config, _player1, cards));
 
             // Assert
             var expectedExceptionMessage = string.Format(Resources.Cards__with_ids__0___cannot_be_played_because_they_are_not_in_the_first_non_empty_pile__1__of_player__2_,
@@ -183,7 +183,7 @@ namespace Tests.ServiceImplementations.Shithead
             // Act
             Assert.Single(player1HandPile.Cards);
             Assert.Empty(_discardPile.Cards);
-            _shitheadPileLogic.PlayToDeck(config, cards, _player1);
+            _shitheadPileLogic.PlayToDeck(config, _player1, cards);
 
             // Assert
             Assert.Empty(player1HandPile.Cards);
