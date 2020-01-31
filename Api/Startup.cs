@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using AspCoreCardGameEngine.Api.Config;
 using AspCoreCardGameEngine.Api.Config.Extensions;
+using AspCoreCardGameEngine.Api.Middleware;
 using AspCoreCardGameEngine.Api.Persistence;
 using AspCoreCardGameEngine.Api.ServiceImplementations.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -38,10 +39,7 @@ namespace AspCoreCardGameEngine.Api
 
             services
                 .AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                });
+                .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
             services.AddScoped<StartupHelper>();
             services.AddServiceImplementations(_configuration);
@@ -78,6 +76,8 @@ namespace AspCoreCardGameEngine.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseMiddleware<DomainExceptionsMiddleware>();
 
             app.UseRouting();
             app.UseCors(c => c
