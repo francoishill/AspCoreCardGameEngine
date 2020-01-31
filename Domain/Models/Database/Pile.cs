@@ -30,6 +30,11 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
             Identifier = identifier;
         }
 
+        public override string ToString()
+        {
+            return $"Id={Id}, GameId={GameId}, Type={Type}, Identifier={Identifier}";
+        }
+
         public bool IsEmpty()
         {
             return Cards.Count == 0;

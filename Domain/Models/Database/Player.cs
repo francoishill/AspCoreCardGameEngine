@@ -20,5 +20,10 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         {
             Game = game;
         }
+
+        public override string ToString()
+        {
+            return $"Id={Id}, Accepted={(Accepted ? "true" : "false")}";
+        }
     }
 }

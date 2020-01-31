@@ -32,6 +32,11 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
             Mode = mode;
         }
 
+        public override string ToString()
+        {
+            return $"Id={Id}, Type={Type}, State={State}, Mode={Mode}";
+        }
+
         public Pile GetDeckPile()
         {
             var deckPile = Piles.SingleOrDefault(p => p.Type == PileType.Deck);
