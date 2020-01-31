@@ -84,7 +84,7 @@ namespace AspCoreCardGameEngine.Api
                 .SetIsOriginAllowed(host => true)
                 .AllowAnyMethod()
                 .AllowCredentials() // TODO: Combining this with SetIsOriginAllowed could be a security issue?
-                .WithHeaders("Accept", "Authorization", "Content-Type", "Origin", "X-CSRF-Token", "x-requested-with", "traceparent", "request-context"));
+                .WithHeaders("Accept", "Authorization", "Content-Type", "Origin", "X-CSRF-Token", "x-requested-with", "x-player-id", "traceparent", "request-context"));
 
             app.UseAuthorization();
 
