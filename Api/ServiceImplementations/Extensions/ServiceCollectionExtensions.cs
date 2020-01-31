@@ -14,6 +14,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Extensions
             services.AddScoped<IDeckFactory, DeckFactory>();
             services.AddScoped<IShitheadGameEngine, ShitheadGameEngine>();
             services.AddScoped<IShitheadMoveValidator, ShitheadMoveValidator>();
+            services.AddScoped<IShitheadPileLogic, ShitheadPileLogic>();
             services.AddScoped<IShitheadPlayerLogic, ShitheadPlayerLogic>();
         }
     }
