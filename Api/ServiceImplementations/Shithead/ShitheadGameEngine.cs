@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspCoreCardGameEngine.Api.Persistence;
@@ -51,6 +52,9 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 
                 game.Piles.Add(deckPile);
 
+                var playerFaceDownPiles = new List<Pile>();
+                var playerFaceUpPiles = new List<Pile>();
+                var playerHandPiles = new List<Pile>();
                 for (var i = 0; i < request.NumberPlayers; i++)
                 {
                     var player = new Player(game);
@@ -59,10 +63,45 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 
                     var faceDownPile = game.CreatePlayerPile(player, PlayerHandType.FaceDown);
                     game.Piles.Add(faceDownPile);
+                    playerFaceDownPiles.Add(faceDownPile);
+
                     var faceUpPile = game.CreatePlayerPile(player, PlayerHandType.FaceUp);
                     game.Piles.Add(faceUpPile);
+                    playerFaceUpPiles.Add(faceUpPile);
+
                     var handPile = game.CreatePlayerPile(player, PlayerHandType.Hand);
                     game.Piles.Add(handPile);
+                    playerHandPiles.Add(handPile);
+                }
+
+                for (var i = 1; i <= config.FaceDownCount; i++)
+                {
+                    foreach (var faceDownPile in playerFaceDownPiles)
+                    {
+                        var firstDeckCard = deckPile.Cards.First();
+                        deckPile.Cards.Remove(firstDeckCard);
+                        faceDownPile.Cards.Add(firstDeckCard);
+                    }
+                }
+
+                for (var i = 1; i <= config.FaceUpCount; i++)
+                {
+                    foreach (var faceUpPile in playerFaceUpPiles)
+                    {
+                        var firstDeckCard = deckPile.Cards.First();
+                        deckPile.Cards.Remove(firstDeckCard);
+                        faceUpPile.Cards.Add(firstDeckCard);
+                    }
+                }
+
+                for (var i = 1; i <= config.HandCount; i++)
+                {
+                    foreach (var handPile in playerHandPiles)
+                    {
+                        var firstDeckCard = deckPile.Cards.First();
+                        deckPile.Cards.Remove(firstDeckCard);
+                        handPile.Cards.Add(firstDeckCard);
+                    }
                 }
 
                 var discardPile = new Pile(game, PileType.Discard, ShitheadConstants.PileIdentifiers.DISCARD);
@@ -70,6 +109,8 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 
                 var burnPile = new Pile(game, PileType.Discard, ShitheadConstants.PileIdentifiers.BURN);
                 game.Piles.Add(burnPile);
+
+                game.State = game.Players.First().Id.ToString();
 
                 await _dbContext.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -136,6 +177,11 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
             }
 
+            if (game.State != player.Id.ToString())
+            {
+                throw new DomainException(DomainErrorCode.BadRequest, string.Format(Resources.It_is_another_player_s_turn__not_player__0_, player.Id));
+            }
+
             var playerPile = player.GetFirstNonEmptyPile();
             var matchingCards = request.CardIds.Select(id => new
                 {
@@ -148,13 +194,29 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             if (missingCards.Any())
             {
                 var joinedIds = string.Join(", ", missingCards.Select(m => m.CardId));
-                throw new DomainException(DomainErrorCode.BadRequest, $"Cards do not exist or cannot be found in the pile of player {player.Id} (game {game.Id}). Card ids: {joinedIds}");
+                throw new DomainException(DomainErrorCode.BadRequest, $"Cards (ids {joinedIds}) do not exist or cannot be found in the pile of player {player.Id} (game {game.Id})");
             }
 
             var cardsToPlay = matchingCards.Select(m => m.Card).ToList();
 
             _shitheadPileLogic.PlayToDeck(config, player, cardsToPlay);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<PlayerPilesResponse> GetPlayerPiles(Guid gameId, Guid playerId)
+        {
+            var game = await GetGameOrThrow(gameId);
+
+            var player = game.Players.SingleOrDefault(p => p.Id == playerId);
+            if (player == null)
+            {
+                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
+            }
+
+            var hand = player.GetHandPile();
+            var faceUp = player.GetFaceUpPile();
+            var faceDown = player.GetFaceDownPile();
+            return new PlayerPilesResponse(hand.Cards, faceUp.Cards, faceDown.Cards);
         }
     }
 }

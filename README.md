@@ -22,6 +22,7 @@ Contributions are super welcome!
 0. [x] Plumbing with EntityFramework (using Mysql)
 0. [ ] Add sql indexes on fields we search on
 0. [ ] Ensure Ace has value 14 in Shithead
+0. [ ] Auto-draw card if less than 4 cards in hand and deck still have cards
 0. [ ] Handle DomainException in middleware
 0. [ ] Add DelayMiddleware for development
 0. [x] Setup swagger/Swashbuckle

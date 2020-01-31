@@ -18,5 +18,7 @@ namespace AspCoreCardGameEngine.Domain.Services
             Guid gameId,
             Guid playerId,
             PlayShitheadCardsRequest request);
+
+        Task<PlayerPilesResponse> GetPlayerPiles(Guid gameId, Guid playerId);
     }
 }
