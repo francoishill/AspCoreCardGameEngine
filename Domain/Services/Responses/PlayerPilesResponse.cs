@@ -9,13 +9,13 @@ namespace AspCoreCardGameEngine.Domain.Services.Responses
     {
         public List<CardSummary> HandCards { get; set; }
         public List<CardSummary> FaceUpCards { get; set; }
-        public List<CardSummary> FaceDownCard { get; set; }
+        public List<CardSummary> FaceDownCards { get; set; }
 
         public PlayerPilesResponse(ICollection<Card> handCards, ICollection<Card> faceUpCards, ICollection<Card> faceDownCards)
         {
             HandCards = handCards.Select(c => new CardSummary(c, true)).ToList();
             FaceUpCards = faceUpCards.Select(c => new CardSummary(c, true)).ToList();
-            FaceDownCard = faceDownCards.Select(c => new CardSummary(c, false)).ToList();
+            FaceDownCards = faceDownCards.Select(c => new CardSummary(c, false)).ToList();
         }
 
         public class CardSummary
