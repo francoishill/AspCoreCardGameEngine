@@ -1,6 +1,6 @@
 namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 {
-    public enum PlayerHandTypesEnum
+    public enum PlayerHandType
     {
         Hand,
         FaceUp,

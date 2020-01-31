@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="It_is_another_player_s_turn__not_player__0_" xml:space="preserve">
+        <value>It is another player's turn, not player {0}</value>
+    </data>
+    <data name="Deck_is_empty__cannot_draw_card_for_game__0_" xml:space="preserve">
+        <value>Deck is empty, cannot draw card for game {0}</value>
+    </data>
+    <data name="Cards__with_ids__0___cannot_be_played_because_they_are_not_in_the_first_non_empty_pile__1__of_player__2_" xml:space="preserve">
+        <value>Cards (with ids {0}) cannot be played because they are not in the first non-empty pile {1} of player {2}</value>
+    </data>
+    <data name="Cannot_play_cards_with_different_values" xml:space="preserve">
+        <value>Cannot play cards with different values</value>
+    </data>
+    <data name="At_least_one_card_must_be_specified_to_play_to_deck" xml:space="preserve">
+        <value>At least one card must be specified to play to deck</value>
+    </data>
+    <data name="Card__0__is_not_lower_or_equal_to_the_reverse_card__1_" xml:space="preserve">
+        <value>Card {0} is not lower or equal to the reverse card {1}</value>
+    </data>
+    <data name="Card__0__is_not_higher_or_equal_to_card__1_" xml:space="preserve">
+        <value>Card {0} is not higher or equal to card {1}</value>
+    </data>
+    <data name="Unknown_game_mode__0_" xml:space="preserve">
+        <value>Unknown game mode {0}</value>
+    </data>
+</root>

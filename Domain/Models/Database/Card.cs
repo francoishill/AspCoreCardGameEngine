@@ -7,7 +7,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         public int Id { get; set; }
 
         public Pile Pile { get; set; }
-        public CardSuitEnum Suit { get; set; }
+        public CardSuit Suit { get; set; }
         public int Value { get; set; }
 
         public DateTime Created { get; set; }
@@ -17,7 +17,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         {
         }
 
-        public Card(Pile pile, CardSuitEnum suit, int value)
+        public Card(Pile pile, CardSuit suit, int value)
             : this()
         {
             Pile = pile;
@@ -38,7 +38,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
                 11 => "Jack",
                 12 => "Queen",
                 13 => "King",
-                14 => "Joker",
+                15 => "Joker",
                 _ => Value.ToString()
             };
         }

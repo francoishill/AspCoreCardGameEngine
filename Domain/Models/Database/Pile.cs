@@ -9,7 +9,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         public int Id { get; set; }
         public Guid GameId { get; set; }
         public Game Game { get; set; }
-        public PileTypeEnum Type { get; set; }
+        public PileType Type { get; set; }
         public string Identifier { get; set; }
 
         public ICollection<Card> Cards { get; set; }
@@ -22,7 +22,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
             Cards = new HashSet<Card>();
         }
 
-        public Pile(Game game, PileTypeEnum type, string identifier)
+        public Pile(Game game, PileType type, string identifier)
             : this()
         {
             Game = game;

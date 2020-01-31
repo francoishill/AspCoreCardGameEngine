@@ -12,13 +12,13 @@ namespace AspCoreCardGameEngine.Domain.Services
 
         public static ShitheadGameConfig Default { get; } = new ShitheadGameConfig
         {
-            Joker = 14,
+            Joker = 15,
 
             Reset = 2,
             Invisible = 3,
             Reverse = 7,
             Burn = 10,
-            Skip = 14,
+            Skip = 15,
         };
     }
 }

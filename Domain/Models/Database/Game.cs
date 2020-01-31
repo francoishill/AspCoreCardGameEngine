@@ -11,6 +11,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
 
         public string Type { get; set; }
         public string State { get; set; }
+        public string Mode { get; set; }
 
         public ICollection<Pile> Piles { get; set; }
         public ICollection<Player> Players { get; set; }
@@ -24,15 +25,16 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
             Players = new HashSet<Player>();
         }
 
-        public Game(string type)
+        public Game(string type, string mode)
             : this()
         {
             Type = type;
+            Mode = mode;
         }
 
         public Pile GetDeckPile()
         {
-            var deckPile = Piles.SingleOrDefault(p => p.Type == PileTypeEnum.Deck);
+            var deckPile = Piles.SingleOrDefault(p => p.Type == PileType.Deck);
 
             if (deckPile == null)
             {
@@ -44,7 +46,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
 
         public Pile GetDiscardPile(string identifier)
         {
-            var discardPile = Piles.SingleOrDefault(p => p.Type == PileTypeEnum.Discard && p.Identifier == identifier);
+            var discardPile = Piles.SingleOrDefault(p => p.Type == PileType.Discard && p.Identifier == identifier);
             if (discardPile == null)
             {
                 throw new DomainException(DomainErrorCode.InconsistentData, $"No discard pile for game {Id}");
@@ -53,7 +55,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
             return discardPile;
         }
 
-        private static string GetPlayerIdentifier(Player player, string identifierSuffix)
+        public static string GetPlayerIdentifier(Player player, string identifierSuffix)
         {
             return $"{player.Id.ToString()}/{identifierSuffix}";
         }
@@ -62,7 +64,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         {
             var identifier = GetPlayerIdentifier(player, identifierSuffix);
 
-            var playerPile = Piles.SingleOrDefault(p => p.Type == PileTypeEnum.PlayerHand && p.Identifier == identifier);
+            var playerPile = Piles.SingleOrDefault(p => p.Type == PileType.PlayerHand && p.Identifier == identifier);
             if (playerPile == null)
             {
                 throw new DomainException(DomainErrorCode.InconsistentData, $"No player pile for game {Id} and player {player.Id}");
@@ -75,7 +77,7 @@ namespace AspCoreCardGameEngine.Domain.Models.Database
         {
             var identifier = GetPlayerIdentifier(player, identifierSuffix);
 
-            return new Pile(this, PileTypeEnum.PlayerHand, identifier);
+            return new Pile(this, PileType.PlayerHand, identifier);
         }
     }
 }

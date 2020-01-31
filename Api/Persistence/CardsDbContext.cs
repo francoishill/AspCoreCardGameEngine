@@ -24,11 +24,11 @@ namespace AspCoreCardGameEngine.Api.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Card>().Property(c => c.Suit).IsRequired().HasMaxLength(32).HasConversion(new EnumToStringConverter<CardSuitEnum>());
+            modelBuilder.Entity<Card>().Property(c => c.Suit).IsRequired().HasMaxLength(32).HasConversion(new EnumToStringConverter<CardSuit>());
             modelBuilder.Entity<Card>().Property(c => c.Value).IsRequired();
             modelBuilder.Entity<Card>().HasOne(c => c.Pile).WithMany(p => p.Cards);
 
-            modelBuilder.Entity<Pile>().Property(c => c.Type).IsRequired().HasMaxLength(64).HasConversion(new EnumToStringConverter<PileTypeEnum>());
+            modelBuilder.Entity<Pile>().Property(c => c.Type).IsRequired().HasMaxLength(64).HasConversion(new EnumToStringConverter<PileType>());
             modelBuilder.Entity<Pile>().Property(c => c.Identifier).IsRequired().HasMaxLength(512);
             modelBuilder.Entity<Pile>().HasIndex(r => new {r.GameId, r.Type, r.Identifier}).IsUnique();
             modelBuilder.Entity<Pile>().HasOne(p => p.Game).WithMany(g => g.Piles);

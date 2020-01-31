@@ -18,25 +18,28 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
     {
         private readonly CardsDbContext _dbContext;
         private readonly IDeckFactory _deckFactory;
+        private readonly IShitheadPileLogic _shitheadPileLogic;
 
         public ShitheadGameEngine(
             CardsDbContext dbContext,
-            IDeckFactory deckFactory)
+            IDeckFactory deckFactory,
+            IShitheadPileLogic shitheadPileLogic)
         {
             _dbContext = dbContext;
             _deckFactory = deckFactory;
+            _shitheadPileLogic = shitheadPileLogic;
         }
 
         public async Task<CreateGameResponse> CreateGame(ShitheadGameConfig config, CreateShitheadGameRequest request)
         {
             await using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
-                var game = new Game(ShitheadConstants.GAME_TYPE);
+                var game = new Game(ShitheadConstants.GAME_TYPE, ShitheadConstants.GameModes.NORMAL);
                 await _dbContext.Games.AddAsync(game);
                 await _dbContext.SaveChangesAsync();
 
                 var deckCount = 1 + request.NumberPlayers / 5;
-                var deckPile = new Pile(game, PileTypeEnum.Deck, ShitheadConstants.DECK_PILE_IDENTIFIER);
+                var deckPile = new Pile(game, PileType.Deck, ShitheadConstants.PileIdentifiers.DECK);
                 for (var i = 0; i < deckCount; i++)
                 {
                     _deckFactory.AddDeckCardsToPile(config, deckPile, new CreateDeckOptions
@@ -54,18 +57,18 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                     game.Players.Add(player);
                     await _dbContext.SaveChangesAsync();
 
-                    var faceDownPile = game.CreatePlayerPile(player, PlayerHandTypesEnum.FaceDown);
+                    var faceDownPile = game.CreatePlayerPile(player, PlayerHandType.FaceDown);
                     game.Piles.Add(faceDownPile);
-                    var faceUpPile = game.CreatePlayerPile(player, PlayerHandTypesEnum.FaceUp);
+                    var faceUpPile = game.CreatePlayerPile(player, PlayerHandType.FaceUp);
                     game.Piles.Add(faceUpPile);
-                    var handPile = game.CreatePlayerPile(player, PlayerHandTypesEnum.Hand);
+                    var handPile = game.CreatePlayerPile(player, PlayerHandType.Hand);
                     game.Piles.Add(handPile);
                 }
 
-                var discardPile = new Pile(game, PileTypeEnum.Discard, ShitheadConstants.DISCARD_PILE_IDENTIFIER);
+                var discardPile = new Pile(game, PileType.Discard, ShitheadConstants.PileIdentifiers.DISCARD);
                 game.Piles.Add(discardPile);
 
-                var burnPile = new Pile(game, PileTypeEnum.Discard, ShitheadConstants.BURN_PILE_IDENTIFIER);
+                var burnPile = new Pile(game, PileType.Discard, ShitheadConstants.PileIdentifiers.BURN);
                 game.Piles.Add(burnPile);
 
                 await _dbContext.SaveChangesAsync();
@@ -115,8 +118,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {id} is not in the game");
             }
 
-            var gameMutator = new ShitheadGameMutator(player);
-            gameMutator.DrawFromDeck();
+            _shitheadPileLogic.DrawFromDeck(player);
             await _dbContext.SaveChangesAsync();
 
             return new DrawFromDeckResponse();

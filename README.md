@@ -20,6 +20,8 @@ Contributions are super welcome!
 ### Engine
 
 0. [x] Plumbing with EntityFramework (using Mysql)
+0. [ ] Add sql indexes on fields we search on
+0. [ ] Ensure Ace has value 14 in Shithead
 0. [ ] Handle DomainException in middleware
 0. [ ] Add DelayMiddleware for development
 0. [x] Setup swagger/Swashbuckle

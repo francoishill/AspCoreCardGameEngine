@@ -30,13 +30,13 @@ namespace Tests.ServiceImplementations
             {
                 IncludeJokers = includeJokers,
             };
-            var pile = new Pile(null, PileTypeEnum.Deck, "test-pile");
+            var pile = new Pile(null, PileType.Deck, "test-pile");
 
             // Act
             _factory.AddDeckCardsToPile(ShitheadGameConfig.Default, pile, options);
 
             // Assert
-            var jokerCount = pile.Cards.Count(c => c.Suit == CardSuitEnum.Joker);
+            var jokerCount = pile.Cards.Count(c => c.Suit == CardSuit.Joker);
             Assert.Equal(expectedJokerCount, jokerCount);
         }
 
@@ -50,7 +50,7 @@ namespace Tests.ServiceImplementations
             {
                 IncludeJokers = includeJokers,
             };
-            var pile = new Pile(null, PileTypeEnum.Deck, "test-pile");
+            var pile = new Pile(null, PileType.Deck, "test-pile");
 
             // Act
             _factory.AddDeckCardsToPile(ShitheadGameConfig.Default, pile, options);
@@ -66,7 +66,7 @@ namespace Tests.ServiceImplementations
         {
             // Arrange
             var options = new CreateDeckOptions {Shuffled = shuffle};
-            var pile = new Pile(null, PileTypeEnum.Deck, "test-pile");
+            var pile = new Pile(null, PileType.Deck, "test-pile");
 
             // Act
             _factory.AddDeckCardsToPile(ShitheadGameConfig.Default, pile, options);

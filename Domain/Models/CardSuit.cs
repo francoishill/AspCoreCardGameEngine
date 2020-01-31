@@ -1,6 +1,6 @@
 namespace AspCoreCardGameEngine.Domain.Models
 {
-    public enum CardSuitEnum
+    public enum CardSuit
     {
         Clubs = 1,
         Diamonds,

@@ -21,17 +21,17 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations
             var cards = new List<Card>();
             for (var i = 1; i <= 13; i++)
             {
-                cards.Add(new Card(pile, CardSuitEnum.Clubs, i));
-                cards.Add(new Card(pile, CardSuitEnum.Diamonds, i));
-                cards.Add(new Card(pile, CardSuitEnum.Hearts, i));
-                cards.Add(new Card(pile, CardSuitEnum.Spades, i));
+                cards.Add(new Card(pile, CardSuit.Clubs, i));
+                cards.Add(new Card(pile, CardSuit.Diamonds, i));
+                cards.Add(new Card(pile, CardSuit.Hearts, i));
+                cards.Add(new Card(pile, CardSuit.Spades, i));
             }
 
             if (options.IncludeJokers)
             {
                 for (var i = 0; i < 2; i++)
                 {
-                    cards.Add(new Card(pile, CardSuitEnum.Joker, config.Joker));
+                    cards.Add(new Card(pile, CardSuit.Joker, config.Joker));
                 }
             }
 

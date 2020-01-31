@@ -1,6 +1,6 @@
 namespace AspCoreCardGameEngine.Domain.Models
 {
-    public enum PileTypeEnum
+    public enum PileType
     {
         Deck = 1,
         Discard,
