@@ -100,6 +100,15 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 
             var flags = (PileGotBurnt: pileGotBurnt, PlayedCardIsReverse: playedCardIsReverse);
             game.State = _shitheadPlayerLogic.CalculateNextPlayer(game, player, flags);
+
+            var deckPile = game.GetDeckPile();
+            var playerHandPile = player.GetHandPile();
+            while (!deckPile.IsEmpty() && playerHandPile.Cards.Count < config.HandCount)
+            {
+                var firstDeckCard = deckPile.Cards.First();
+                deckPile.Cards.Remove(firstDeckCard);
+                playerHandPile.Cards.Add(firstDeckCard);
+            }
         }
 
         private static bool ShouldBurnPile(ShitheadGameConfig config, Pile discardPile)
