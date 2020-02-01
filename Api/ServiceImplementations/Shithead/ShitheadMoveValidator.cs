@@ -58,14 +58,21 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 
             var lastPileCard = pileCardsWithValues.Last();
 
-            if (lastPileCard.Value == config.Reverse
-                && valueToPlay > lastPileCard.Value)
+            var lastPileCardValue = lastPileCard.Value;
+            if (lastPileCardValue == 1)
+            {
+                // Ace
+                lastPileCardValue = 14;
+            }
+
+            if (lastPileCardValue == config.Reverse
+                && valueToPlay > lastPileCardValue)
             {
                 return string.Format(Resources.Card__0__is_not_lower_or_equal_to_the_reverse_card__1_, cardToPlay, lastPileCard);
             }
 
-            if (lastPileCard.Value != config.Reverse
-                && valueToPlay < lastPileCard.Value)
+            if (lastPileCardValue != config.Reverse
+                && valueToPlay < lastPileCardValue)
             {
                 return string.Format(Resources.Card__0__is_not_higher_or_equal_to_card__1_, cardToPlay, lastPileCard);
             }
