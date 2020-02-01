@@ -10,9 +10,9 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
         public string CalculateNextPlayer(
             Game game,
             Player player,
-            (bool PileGotBurnt, bool PlayedCardIsReverse) flags)
+            (bool PileGotBurnt, bool PlayedCardIsReverse, bool PlayedCardIsSkip) flags)
         {
-            var (pileGotBurnt, playedCardIsReverse) = flags;
+            var (pileGotBurnt, playedCardIsReverse, playedCardIsSkip) = flags;
             if (pileGotBurnt)
             {
                 // Player can play again after burn
@@ -39,9 +39,15 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 case ShitheadConstants.GameModes.NORMAL:
                 {
                     playerIndex++;
+
+                    if (playedCardIsSkip)
+                    {
+                        playerIndex++;
+                    }
+
                     if (playerIndex >= players.Count)
                     {
-                        playerIndex = 0;
+                        playerIndex -= players.Count;
                     }
 
                     nextPlayer = players[playerIndex];
@@ -50,9 +56,15 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 case ShitheadConstants.GameModes.REVERSE:
                 {
                     playerIndex--;
+
+                    if (playedCardIsSkip)
+                    {
+                        playerIndex--;
+                    }
+
                     if (playerIndex < 0)
                     {
-                        playerIndex = players.Count - 1;
+                        playerIndex += players.Count;
                     }
 
                     nextPlayer = players[playerIndex];

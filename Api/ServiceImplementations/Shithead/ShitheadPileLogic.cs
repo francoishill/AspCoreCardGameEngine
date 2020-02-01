@@ -97,8 +97,9 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             }
 
             var playedCardIsReverse = firstCardValue == config.Reverse;
+            var playedCardIsSkip = firstCardValue == config.Skip;
 
-            var flags = (PileGotBurnt: pileGotBurnt, PlayedCardIsReverse: playedCardIsReverse);
+            var flags = (PileGotBurnt: pileGotBurnt, PlayedCardIsReverse: playedCardIsReverse, PlayedCardIsSkip: playedCardIsSkip);
             game.State = _shitheadPlayerLogic.CalculateNextPlayer(game, player, flags);
 
             var deckPile = game.GetDeckPile();

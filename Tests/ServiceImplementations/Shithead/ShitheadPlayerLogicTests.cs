@@ -60,7 +60,7 @@ namespace Tests.ServiceImplementations.Shithead
         {
             // Arrange
             _game.State = _player1.Id.ToString();
-            var flags = (PileGotBurnt: true, PlayedCardIsReverse: false);
+            var flags = (PileGotBurnt: true, PlayedCardIsReverse: false, PlayedCardIsSkip: false);
 
             // Act
             var result = _shitheadPlayerLogic.CalculateNextPlayer(_game, _player1, flags);
@@ -81,7 +81,28 @@ namespace Tests.ServiceImplementations.Shithead
             var players = new[] {_player1, _player2, _player3, _player4, _player5};
             var thisPlayer = players[thisMovePlayerNum - 1];
             _game.State = thisPlayer.Id.ToString();
-            var flags = (PileGotBurnt: false, PlayedCardIsReverse: false);
+            var flags = (PileGotBurnt: false, PlayedCardIsReverse: false, PlayedCardIsSkip: false);
+
+            // Act
+            var result = _shitheadPlayerLogic.CalculateNextPlayer(_game, thisPlayer, flags);
+
+            // Assert
+            Assert.Equal(players[nextMovePlayerNum - 1].Id.ToString(), result);
+        }
+
+        [Theory]
+        [InlineData(5, 2)]
+        [InlineData(4, 1)]
+        [InlineData(3, 5)]
+        [InlineData(2, 4)]
+        [InlineData(1, 3)]
+        public void CalculateNextPlayer_next_player_and_skip_when_non_reverse(int thisMovePlayerNum, int nextMovePlayerNum)
+        {
+            // Arrange
+            var players = new[] {_player1, _player2, _player3, _player4, _player5};
+            var thisPlayer = players[thisMovePlayerNum - 1];
+            _game.State = thisPlayer.Id.ToString();
+            var flags = (PileGotBurnt: false, PlayedCardIsReverse: false, PlayedCardIsSkip: true);
 
             // Act
             var result = _shitheadPlayerLogic.CalculateNextPlayer(_game, thisPlayer, flags);
@@ -102,13 +123,59 @@ namespace Tests.ServiceImplementations.Shithead
             var players = new[] {_player1, _player2, _player3, _player4, _player5};
             var thisPlayer = players[thisMovePlayerNum - 1];
             _game.State = thisPlayer.Id.ToString();
-            var flags = (PileGotBurnt: false, PlayedCardIsReverse: true);
+            var flags = (PileGotBurnt: false, PlayedCardIsReverse: true, PlayedCardIsSkip: false);
 
             // Act
             var result = _shitheadPlayerLogic.CalculateNextPlayer(_game, thisPlayer, flags);
 
             // Assert
             Assert.Equal(players[nextMovePlayerNum - 1].Id.ToString(), result);
+        }
+
+        [Theory]
+        [InlineData(1, 4)]
+        [InlineData(5, 3)]
+        [InlineData(4, 2)]
+        [InlineData(3, 1)]
+        [InlineData(2, 5)]
+        public void CalculateNextPlayer_previous_player_and_skip_when_non_reverse(int thisMovePlayerNum, int nextMovePlayerNum)
+        {
+            // Arrange
+            var players = new[] {_player1, _player2, _player3, _player4, _player5};
+            var thisPlayer = players[thisMovePlayerNum - 1];
+            _game.State = thisPlayer.Id.ToString();
+            var flags = (PileGotBurnt: false, PlayedCardIsReverse: true, PlayedCardIsSkip: true);
+
+            // Act
+            var result = _shitheadPlayerLogic.CalculateNextPlayer(_game, thisPlayer, flags);
+
+            // Assert
+            Assert.Equal(players[nextMovePlayerNum - 1].Id.ToString(), result);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void CalculateNextPlayer_skip_with_only_two_players(bool reverse)
+        {
+            // Arrange
+            var players = new[] {_player1, _player2};
+
+            _game.Players.Clear();
+            foreach (var player in players)
+            {
+                _game.Players.Add(player);
+            }
+
+            var firstPlayer = players.First();
+            _game.State = firstPlayer.Id.ToString();
+            var flags = (PileGotBurnt: false, PlayedCardIsReverse: reverse, PlayedCardIsSkip: true);
+
+            // Act
+            var result = _shitheadPlayerLogic.CalculateNextPlayer(_game, firstPlayer, flags);
+
+            // Assert
+            Assert.Equal(firstPlayer.Id.ToString(), result);
         }
     }
 }
