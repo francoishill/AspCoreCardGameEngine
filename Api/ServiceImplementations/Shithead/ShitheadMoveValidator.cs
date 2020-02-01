@@ -44,10 +44,12 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 return null;
             }
 
-            var pileCardsWithValues = pileCards.Where(c =>
-                    c.Value != config.Reset
-                    && c.Value != config.Invisible
+            // TODO: Ordering by .Updated and ThenBy .Id is not super robust
+            var pileCardsWithValues = pileCards
+                .Where(c =>
+                    c.Value != config.Invisible
                     && c.Value != config.Skip)
+                .OrderBy(c => c.Updated ?? DateTime.MinValue).ThenBy(c => c.Id)
                 .ToList();
 
             if (pileCardsWithValues.Count == 0)
