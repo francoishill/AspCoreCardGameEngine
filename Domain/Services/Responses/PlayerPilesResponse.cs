@@ -7,15 +7,21 @@ namespace AspCoreCardGameEngine.Domain.Services.Responses
 {
     public class PlayerPilesResponse
     {
+        public List<CardSummary> DiscardPileCards { get; set; }
         public List<CardSummary> HandCards { get; set; }
         public List<CardSummary> FaceUpCards { get; set; }
         public List<CardSummary> FaceDownCards { get; set; }
 
-        public PlayerPilesResponse(ICollection<Card> handCards, ICollection<Card> faceUpCards, ICollection<Card> faceDownCards)
+        public PlayerPilesResponse(
+            ICollection<Card> discardPileCards,
+            ICollection<Card> handCards,
+            ICollection<Card> faceUpCards,
+            ICollection<Card> faceDownCards)
         {
-            HandCards = handCards.Select(c => new CardSummary(c, true)).ToList();
-            FaceUpCards = faceUpCards.Select(c => new CardSummary(c, true)).ToList();
-            FaceDownCards = faceDownCards.Select(c => new CardSummary(c, false)).ToList();
+            DiscardPileCards = discardPileCards.DefaultCardOrdering().Select(c => new CardSummary(c, true)).ToList();
+            HandCards = handCards.DefaultCardOrdering().Select(c => new CardSummary(c, true)).ToList();
+            FaceUpCards = faceUpCards.DefaultCardOrdering().Select(c => new CardSummary(c, true)).ToList();
+            FaceDownCards = faceDownCards.DefaultCardOrdering().Select(c => new CardSummary(c, false)).ToList();
         }
 
         public class CardSummary

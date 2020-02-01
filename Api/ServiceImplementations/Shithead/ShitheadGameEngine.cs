@@ -213,10 +213,11 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
             }
 
+            var discardPileCards = game.GetDiscardPile(ShitheadConstants.PileIdentifiers.DISCARD);
             var hand = player.GetHandPile();
             var faceUp = player.GetFaceUpPile();
             var faceDown = player.GetFaceDownPile();
-            return new PlayerPilesResponse(hand.Cards, faceUp.Cards, faceDown.Cards);
+            return new PlayerPilesResponse(discardPileCards.Cards, hand.Cards, faceUp.Cards, faceDown.Cards);
         }
     }
 }
