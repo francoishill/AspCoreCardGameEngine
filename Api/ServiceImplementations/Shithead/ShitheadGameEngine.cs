@@ -20,15 +20,18 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
         private readonly CardsDbContext _dbContext;
         private readonly IDeckFactory _deckFactory;
         private readonly IShitheadPileLogic _shitheadPileLogic;
+        private readonly IRealtimeService _realtimeService;
 
         public ShitheadGameEngine(
             CardsDbContext dbContext,
             IDeckFactory deckFactory,
-            IShitheadPileLogic shitheadPileLogic)
+            IShitheadPileLogic shitheadPileLogic,
+            IRealtimeService realtimeService)
         {
             _dbContext = dbContext;
             _deckFactory = deckFactory;
             _shitheadPileLogic = shitheadPileLogic;
+            _realtimeService = realtimeService;
         }
 
         public async Task<CreateGameResponse> CreateGame(ShitheadGameConfig config, CreateShitheadGameRequest request)
@@ -201,6 +204,8 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
 
             _shitheadPileLogic.PlayToDeck(config, player, cardsToPlay);
             await _dbContext.SaveChangesAsync();
+
+            await _realtimeService.OnGameMove(game.Id.ToString(), player.Id.ToString());
         }
 
         public async Task<PlayerPilesResponse> GetPlayerPiles(Guid gameId, Guid playerId)

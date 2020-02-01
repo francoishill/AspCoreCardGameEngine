@@ -16,6 +16,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Extensions
             services.AddScoped<IShitheadMoveValidator, ShitheadMoveValidator>();
             services.AddScoped<IShitheadPileLogic, ShitheadPileLogic>();
             services.AddScoped<IShitheadPlayerLogic, ShitheadPlayerLogic>();
+            services.AddScoped<IRealtimeService, RealtimeService>();
         }
     }
 }

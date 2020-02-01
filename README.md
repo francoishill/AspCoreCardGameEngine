@@ -27,6 +27,7 @@ Contributions are super welcome!
 0. [x] Handle DomainException in middleware
 0. [ ] Add DelayMiddleware for development
 0. [ ] Ordering by .Updated and ThenBy .Id is not super robust, see `DefaultCardOrdering`
+0. [ ] When skip card is played it should calculate correct next player
 0. [x] Setup swagger/Swashbuckle
 0. [x] Create deck (shuffled, not shuffled, multiple decks, jokers)
 0. [x] ~~Card images~~ - removed from backend, the frontend can take care of this

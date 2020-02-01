@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using AspCoreCardGameEngine.Api.Config;
 using AspCoreCardGameEngine.Api.Config.Extensions;
+using AspCoreCardGameEngine.Api.Hubs;
 using AspCoreCardGameEngine.Api.Middleware;
 using AspCoreCardGameEngine.Api.Persistence;
 using AspCoreCardGameEngine.Api.ServiceImplementations.Extensions;
@@ -43,6 +44,8 @@ namespace AspCoreCardGameEngine.Api
 
             services.AddScoped<StartupHelper>();
             services.AddServiceImplementations(_configuration);
+
+            services.AddSignalR();
 
             services.AddCustomSwagger($"{Constants.APP_NAME} API");
         }
@@ -88,7 +91,12 @@ namespace AspCoreCardGameEngine.Api
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+
+                endpoints.MapHub<GameHub>("/api/realtime/gameHub");
+            });
         }
     }
 }
