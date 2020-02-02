@@ -24,6 +24,6 @@ namespace AspCoreCardGameEngine.Domain.Services
             Guid gameId,
             Guid playerId);
 
-        Task<PlayerPilesResponse> GetPlayerPiles(Guid gameId, Guid playerId);
+        Task<GameStateResponse> GetGameState(Guid gameId, Guid playerId);
     }
 }

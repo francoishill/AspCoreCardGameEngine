@@ -5,19 +5,22 @@ using AspCoreCardGameEngine.Domain.Models.Database;
 
 namespace AspCoreCardGameEngine.Domain.Services.Responses
 {
-    public class PlayerPilesResponse
+    public class GameStateResponse
     {
+        public bool IsMyTurn { get; set; }
         public List<CardSummary> DiscardPileCards { get; set; }
         public List<CardSummary> HandCards { get; set; }
         public List<CardSummary> FaceUpCards { get; set; }
         public List<CardSummary> FaceDownCards { get; set; }
 
-        public PlayerPilesResponse(
+        public GameStateResponse(
+            bool isMyTurn,
             ICollection<Card> discardPileCards,
             ICollection<Card> handCards,
             ICollection<Card> faceUpCards,
             ICollection<Card> faceDownCards)
         {
+            IsMyTurn = isMyTurn;
             DiscardPileCards = discardPileCards.DefaultCardOrdering().Select(c => new CardSummary(c, true)).ToList();
             HandCards = handCards.DefaultCardOrdering().Select(c => new CardSummary(c, true)).ToList();
             FaceUpCards = faceUpCards.DefaultCardOrdering().Select(c => new CardSummary(c, true)).ToList();

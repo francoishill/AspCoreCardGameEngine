@@ -224,7 +224,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             var player = game.Players.SingleOrDefault(p => p.Id == playerId);
             if (player == null)
             {
-                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
+                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with id {playerId} is not in the game with id {gameId}");
             }
 
             ValidateIsPlayerTurn(game, player);
@@ -237,21 +237,24 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             await _realtimeService.OnGameMove(game.Id.ToString(), player.Id.ToString());
         }
 
-        public async Task<PlayerPilesResponse> GetPlayerPiles(Guid gameId, Guid playerId)
+        public async Task<GameStateResponse> GetGameState(Guid gameId, Guid playerId)
         {
             var game = await GetGameOrThrow(gameId);
 
             var player = game.Players.SingleOrDefault(p => p.Id == playerId);
             if (player == null)
             {
-                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
+                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with id {playerId} is not in the game with id {gameId}");
             }
+
+            var isMyTurn = game.State == playerId.ToString();
 
             var discardPileCards = game.GetDiscardPile(ShitheadConstants.PileIdentifiers.DISCARD);
             var hand = player.GetHandPile();
             var faceUp = player.GetFaceUpPile();
             var faceDown = player.GetFaceDownPile();
-            return new PlayerPilesResponse(discardPileCards.Cards, hand.Cards, faceUp.Cards, faceDown.Cards);
+
+            return new GameStateResponse(isMyTurn, discardPileCards.Cards, hand.Cards, faceUp.Cards, faceDown.Cards);
         }
     }
 }

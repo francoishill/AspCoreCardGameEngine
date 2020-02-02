@@ -33,13 +33,13 @@ namespace AspCoreCardGameEngine.Api.Controllers.Games
             return await _shitheadGameEngine.JoinGame(gameId);
         }
 
-        [HttpGet("{gameId}/piles")]
-        public async Task<ActionResult<PlayerPilesResponse>> ShitheadGetPlayerPiles(
+        [HttpGet("{gameId}/state")]
+        public async Task<ActionResult<GameStateResponse>> ShitheadGetGameState(
             Guid gameId,
             [FromHeader(Name = "X-Player-Id"), Required]
             Guid playerId)
         {
-            return await _shitheadGameEngine.GetPlayerPiles(gameId, playerId);
+            return await _shitheadGameEngine.GetGameState(gameId, playerId);
         }
 
         [HttpPost("{gameId}/draw-from-deck")]
