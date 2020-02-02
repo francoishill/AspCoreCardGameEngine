@@ -41,6 +41,7 @@ Contributions are super welcome!
 0. [ ] Rules engine (to implement games)
 0. [ ] Realtime updates (SignalR)
 0. [ ] Deal with all `throw new NotImplementedException()`
+0. [ ] TODO comments
 
 ### Games
 
