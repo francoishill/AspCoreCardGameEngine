@@ -33,10 +33,17 @@ namespace AspCoreCardGameEngine.Domain.Services.Responses
 
             public CardSummary(Card card, bool isVisible)
             {
+                var value = card.Value;
+                if (value == 1)
+                {
+                    // Ace
+                    value = 14;
+                }
+
                 Id = card.Id;
                 IsVisible = isVisible;
                 Suit = isVisible ? card.Suit : (CardSuit?) null;
-                Value = isVisible ? card.Value : (int?) null;
+                Value = isVisible ? value : (int?) null;
             }
         }
     }
