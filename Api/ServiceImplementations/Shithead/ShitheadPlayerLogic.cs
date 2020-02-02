@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AspCoreCardGameEngine.Domain.Exceptions;
 using AspCoreCardGameEngine.Domain.Models.Database;
 using AspCoreCardGameEngine.Domain.Services;
 
@@ -31,7 +32,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             var playerIndex = players.IndexOf(player);
             if (playerIndex == -1)
             {
-                throw new Exception($"Player id {player.Id} is not found in game {game.Id} Players list");
+                throw new DomainException(DomainErrorCode.BadRequest, $"Player id {player.Id} is not found in game {game.Id} Players list");
             }
 
             switch (game.Mode)
@@ -75,6 +76,49 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             }
 
             return nextPlayer.Id.ToString();
+        }
+
+        public string CalculatePreviousPlayer(Game game, Player player)
+        {
+            Player previousPlayer;
+            var players = game.Players.ToList();
+            var playerIndex = players.IndexOf(player);
+            if (playerIndex == -1)
+            {
+                throw new DomainException(DomainErrorCode.BadRequest, $"Player id {player.Id} is not found in game {game.Id} Players list");
+            }
+
+            switch (game.Mode)
+            {
+                case ShitheadConstants.GameModes.NORMAL:
+                {
+                    playerIndex--;
+
+                    if (playerIndex < 0)
+                    {
+                        playerIndex += players.Count;
+                    }
+
+                    previousPlayer = players[playerIndex];
+                    break;
+                }
+                case ShitheadConstants.GameModes.REVERSE:
+                {
+                    playerIndex++;
+
+                    if (playerIndex >= players.Count)
+                    {
+                        playerIndex -= players.Count;
+                    }
+
+                    previousPlayer = players[playerIndex];
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(game.Mode), string.Format(Resources.Unknown_game_mode__0_, game.Mode));
+            }
+
+            return previousPlayer.Id.ToString();
         }
     }
 }

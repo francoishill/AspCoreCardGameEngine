@@ -100,8 +100,35 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             var playedCardIsSkip = firstCardValue == config.Skip;
 
             var flags = (PileGotBurnt: pileGotBurnt, PlayedCardIsReverse: playedCardIsReverse, PlayedCardIsSkip: playedCardIsSkip);
+
             game.State = _shitheadPlayerLogic.CalculateNextPlayer(game, player, flags);
 
+            OnAfterMove(config, game, player);
+        }
+
+        public void PickUpDiscardPile(ShitheadGameConfig config, Player player, Pile playerHandPile)
+        {
+            var game = player.Game;
+
+            var discardPile = game.GetDiscardPile(ShitheadConstants.PileIdentifiers.DISCARD);
+            var discardPileCards = discardPile.Cards.DefaultCardOrdering().ToList();
+            discardPile.Cards.Clear();
+
+            foreach (var discardPileCard in discardPileCards)
+            {
+                playerHandPile.Cards.Add(discardPileCard);
+            }
+
+            game.State = _shitheadPlayerLogic.CalculatePreviousPlayer(game, player);
+
+            OnAfterMove(config, game, player);
+        }
+
+        private static void OnAfterMove(
+            ShitheadGameConfig config,
+            Game game,
+            Player player)
+        {
             var deckPile = game.GetDeckPile();
             var playerHandPile = player.GetHandPile();
             while (!deckPile.IsEmpty() && playerHandPile.Cards.Count < config.HandCount)

@@ -152,6 +152,16 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             return new JoinGameResponse(firstAvailable.Id);
         }
 
+        private static void ValidateIsPlayerTurn(Game game, Player player)
+        {
+            if (game == null) throw new ArgumentNullException(nameof(game));
+            if (player == null) throw new ArgumentNullException(nameof(player));
+            if (game.State != player.Id.ToString())
+            {
+                throw new DomainException(DomainErrorCode.BadRequest, string.Format(Resources.It_is_another_player_s_turn__not_player__0_, player.Id));
+            }
+        }
+
         public async Task DrawFromDeck(Guid gameId, Guid playerId)
         {
             var game = await GetGameOrThrow(gameId);
@@ -161,6 +171,8 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             {
                 throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
             }
+
+            ValidateIsPlayerTurn(game, player);
 
             _shitheadPileLogic.DrawFromDeck(player);
             await _dbContext.SaveChangesAsync();
@@ -180,10 +192,7 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
                 throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
             }
 
-            if (game.State != player.Id.ToString())
-            {
-                throw new DomainException(DomainErrorCode.BadRequest, string.Format(Resources.It_is_another_player_s_turn__not_player__0_, player.Id));
-            }
+            ValidateIsPlayerTurn(game, player);
 
             var playerPile = player.GetFirstNonEmptyPile();
             var matchingCards = request.CardIds.Select(id => new
@@ -203,6 +212,26 @@ namespace AspCoreCardGameEngine.Api.ServiceImplementations.Shithead
             var cardsToPlay = matchingCards.Select(m => m.Card).ToList();
 
             _shitheadPileLogic.PlayToDeck(config, player, cardsToPlay);
+            await _dbContext.SaveChangesAsync();
+
+            await _realtimeService.OnGameMove(game.Id.ToString(), player.Id.ToString());
+        }
+
+        public async Task TakeDiscardPile(ShitheadGameConfig config, Guid gameId, Guid playerId)
+        {
+            var game = await GetGameOrThrow(gameId);
+
+            var player = game.Players.SingleOrDefault(p => p.Id == playerId);
+            if (player == null)
+            {
+                throw new DomainException(DomainErrorCode.EntityMissing, $"Player with {gameId} is not in the game");
+            }
+
+            ValidateIsPlayerTurn(game, player);
+
+            var playerHandPile = player.GetHandPile();
+
+            _shitheadPileLogic.PickUpDiscardPile(config, player, playerHandPile);
             await _dbContext.SaveChangesAsync();
 
             await _realtimeService.OnGameMove(game.Id.ToString(), player.Id.ToString());

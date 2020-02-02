@@ -7,5 +7,6 @@ namespace AspCoreCardGameEngine.Domain.Services
     {
         void DrawFromDeck(Player player);
         void PlayToDeck(ShitheadGameConfig config, Player player, List<Card> cardsToPlay);
+        void PickUpDiscardPile(ShitheadGameConfig config, Player player, Pile playerHandPile);
     }
 }

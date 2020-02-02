@@ -62,5 +62,15 @@ namespace AspCoreCardGameEngine.Api.Controllers.Games
             await _shitheadGameEngine.PlayCards(ShitheadGameConfig.Default, gameId, playerId, request);
             return NoContent();
         }
+
+        [HttpPost("{gameId}/take-discard-pile")]
+        public async Task<ActionResult> ShitheadTakeDiscardPile(
+            Guid gameId,
+            [FromHeader(Name = "X-Player-Id"), Required]
+            Guid playerId)
+        {
+            await _shitheadGameEngine.TakeDiscardPile(ShitheadGameConfig.Default, gameId, playerId);
+            return NoContent();
+        }
     }
 }

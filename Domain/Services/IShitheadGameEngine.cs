@@ -19,6 +19,11 @@ namespace AspCoreCardGameEngine.Domain.Services
             Guid playerId,
             PlayShitheadCardsRequest request);
 
+        Task TakeDiscardPile(
+            ShitheadGameConfig config,
+            Guid gameId,
+            Guid playerId);
+
         Task<PlayerPilesResponse> GetPlayerPiles(Guid gameId, Guid playerId);
     }
 }

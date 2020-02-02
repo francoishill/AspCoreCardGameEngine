@@ -8,5 +8,9 @@ namespace AspCoreCardGameEngine.Domain.Services
             Game game,
             Player player,
             (bool PileGotBurnt, bool PlayedCardIsReverse, bool PlayedCardIsSkip) flags);
+
+        string CalculatePreviousPlayer(
+            Game game,
+            Player player);
     }
 }
